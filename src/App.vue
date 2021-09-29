@@ -1,26 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <header>
+    <h3>오늘 날짜</h3>
+    <p>날씨</p>
+  </header>
+
+  <section>
+    <input type="text" placeholder="오늘 해야할 일이 뭐더라?" />
+
+    <div>
+      할 일 목록
+    </div>
+  </section>
+
+  <footer>
+    <!-- 남은 할일 percent에 따라 응원하는 글귀가 뜨도록 한다 -->
+    <p>text</p>
+
+    <div>percentage</div>
+  </footer>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  components: {},
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
