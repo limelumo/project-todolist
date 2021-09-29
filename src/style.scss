@@ -8,26 +8,6 @@
 // font-family: 'Nanum Pen Script', cursive; //setting
 // font-family: 'Roboto Mono', monospace; // setting
 
-@mixin object($w, $h, $bg) {
-  width: $w;
-  height: $h;
-  background-color: $bg;
-}
-
-@mixin flex($j, $a, $d) {
-  display: flex;
-  justify-content: $j;
-  align-items: $a;
-  flex-direction: $d;
-}
-
-@mixin font($s, $w) {
-  font-size: $s;
-  font-weight: $w;
-}
-
-$point-c: royalblue;
-
 * {
   margin: 0;
   padding: 0;
@@ -40,9 +20,6 @@ $point-c: royalblue;
 }
 
 body {
-  @include flex(center, center, '');
-  height: 100vh;
-  background-color: #ced3df;
   user-select: none;
   color: $point-c;
 }
@@ -54,15 +31,20 @@ button {
   cursor: pointer;
 }
 
-.app-wrap {
-  @include object(95vw, '', white);
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.app_wrap {
+  @include object(100vw, 100vh, white);
   text-align: center;
 }
 
 .header {
   @include object('', '', white);
   @include flex(space-between, center, '');
-  padding: 1.5em 2em;
+  padding: 1.5em;
   border-bottom: 1px solid $point-c;
 }
 
@@ -73,62 +55,74 @@ button {
 }
 
 .date {
-  @include font(1.2em, '');
   span {
-    @include font(1.4em, 600);
+    @include font(1.2em, 600);
     margin-right: 0.25em;
   }
 }
 
 .list {
   @include object(100%, auto, '');
-  padding: 1.5em 2em;
+  padding: 1.5em;
 }
 
-.writeInput {
+.write_input {
+  @include object(100%, 45px, $point-c);
+  @include flex(space-between, center, '');
+  margin-bottom: 2em;
+
   input {
-    @include object(90%, 45px, $point-c);
+    @include object(100%, inherit, transparent);
     &::placeholder {
       color: white;
     }
-    text-indent: 1em;
+    font-size: 0.9em;
+    text-indent: 10px;
     outline: none;
     border: none;
     border-radius: 0;
     color: white;
-    margin-bottom: 2em;
   }
 
   button {
-    @include object(1.8em, 1.8em, '');
-    margin-left: 0.8em;
-    border-radius: 100%;
-    color: $point-c;
-    border: 2px solid $point-c;
+    @include font(1.35em, 500);
+    color: white;
+    margin: 0 0.5em;
   }
 }
 
 .footer {
-  padding: 2em;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  padding: 1.5em;
   border-top: 1px solid $point-c;
 }
 
-.list-left {
+.list_left {
   margin-bottom: 1.2em;
 }
 
-.cheer-text {
-  @include font(1.2em, 600);
+.cheer_text {
+  @include font(1.15em, 600);
   margin-left: 0.2em;
 }
 
-.percentage {
-  @include object(100%, 8px, '');
+.percent_text {
+  @include flex(space-between, center, '');
+}
+
+.percent_bar {
+  @include object(100%, 16px, '');
   border: 1px solid $point-c;
   margin-bottom: 0.8em;
 
   span {
     @include object(60%, inherit, $point-c);
+    @include font(0.85em, '');
+    text-align: right;
+    padding-right: 0.5em;
+    color: white;
     display: block;
   }
 }
