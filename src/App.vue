@@ -17,17 +17,17 @@
 
     <section class="list">
       <div class="write_input">
-        <input type="text" placeholder="오늘의 할 일을 적어주세요" />
-        <button>
-          +
-        </button>
+        <input
+          type="text"
+          placeholder="오늘의 할 일을 적어주세요"
+          v-model="userInput"
+          @keyup.enter="addNewTodo"
+        />
+        <button @click="step = 2">+</button>
       </div>
 
       <div class="todos">
-        <List />
-        <List />
-        <List />
-        <List />
+        <List :step="step" :todoList="todoList" />
       </div>
     </section>
 
@@ -50,6 +50,23 @@ import List from './components/List';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      step: 1,
+      todoList: [],
+      userInput: '',
+    };
+  },
+  methods: {
+    addNewTodo() {
+      this.todoList.push({
+        label: this.userInput,
+        state: 'active',
+      });
+      this.userInput = '';
+      this.step = 2;
+    },
+  },
   components: {
     List,
   },
