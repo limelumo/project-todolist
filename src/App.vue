@@ -1,44 +1,35 @@
 <template>
-  <div class="app_wrap">
+  <div class="appWrap">
     <header class="header">
-      <button class="prev">
-        <i class="fas fa-angle-left"></i>
-      </button>
-
       <div class="date">
-        <span>MONDAY, </span>
-        March 14th
+        <span>{{ weekdayNames[currentDate.day] }}, </span>
+        {{ month[currentDate.month] }} {{ currentDate.date }}
       </div>
-
-      <button class="next">
-        <i class="fas fa-angle-right"></i>
-      </button>
     </header>
 
     <section class="list">
-      <div class="write_input">
+      <div class="writeInput">
         <input
           type="text"
           placeholder="오늘의 할 일을 적어주세요"
           v-model="userInput"
           @keyup.enter="addNewTodo"
         />
-        <button @click="step = 2">+</button>
+        <button @click="addNewTodo">+</button>
       </div>
 
       <div class="todos">
-        <List :step="step" :todoList="todoList" />
+        <List :step="step" :todoList="todoList" @delete="deleteTodo($event)" />
       </div>
     </section>
 
-    <footer class="footer">
-      <!-- 남은 할일 percent에 따라 응원하는 글귀가 뜨도록 한다 -->
-      <div class="list_left">
-        3개 남았어요,
-        <span class="cheer_text">조금만 더 힘내요! </span>
+    <footer class="footer" v-if="step == 2">
+      <div class="listLeft">
+        {{ step }}개 남았어요,
+        <span class="cheerText">조금만 더 힘내요! </span>
       </div>
 
-      <div class="percent_bar">
+      <div class="percentBar">
         <span>75%</span>
       </div>
     </footer>
@@ -52,13 +43,57 @@ export default {
   name: 'App',
   data() {
     return {
+      currentDate: {
+        date: '',
+        day: '',
+        month: '',
+        year: '',
+      },
+      weekdayNames: [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+      ],
+      month: [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ],
       step: 1,
       todoList: [],
       userInput: '',
     };
   },
   methods: {
+    getCurrentDate() {
+      let today = new Date();
+      this.currentDate.date = today.getDate();
+      this.currentDate.day = today.getDay();
+      this.currentDate.month = today.getMonth();
+      this.currentDate.year = today.getFullYear();
+    },
+
+    todoLeft() {
+      this.todoList;
+    },
+
     addNewTodo() {
+      if (!this.userInput) {
+        return;
+      }
+
       this.todoList.push({
         label: this.userInput,
         state: 'active',
@@ -66,9 +101,17 @@ export default {
       this.userInput = '';
       this.step = 2;
     },
+
+    deleteTodo(index) {
+      // let index = this.todoList.indexOf(todo);
+      this.todoList.splice(index, 1);
+    },
   },
   components: {
     List,
+  },
+  created() {
+    this.getCurrentDate();
   },
 };
 </script>
