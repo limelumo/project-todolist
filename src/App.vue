@@ -25,8 +25,15 @@
 
     <footer class="footer" v-if="step == 2">
       <div class="listLeft">
-        {{ incomplete }}개 남았어요,
-        <span class="cheerText">조금만 더 힘내요! </span>
+        <span v-if="incomplete != 0">
+          {{ incomplete }}개 남았어요,
+          <label class="cheerText">
+            조금만 더 힘내요!
+          </label>
+        </span>
+        <span class="cheerText" v-if="incomplete == 0"
+          >할 일을 모두 마치셨습니다 😆</span
+        >
       </div>
 
       <div class="percentBar">
@@ -43,6 +50,7 @@ export default {
   name: 'App',
   data() {
     return {
+      todoLeft: true,
       currentDate: {
         date: '',
         day: '',
@@ -79,7 +87,6 @@ export default {
   },
   computed: {
     incomplete() {
-      console.log(this.todoList);
       return this.todoList.filter(
         (todo) => todo.state == 'all' || todo.state == 'active'
       ).length;
@@ -110,10 +117,6 @@ export default {
     deleteTodo(index) {
       this.todoList.splice(index, 1);
     },
-
-    // inProgress() {
-    //   return 'hi';
-    // },
   },
 
   components: {
