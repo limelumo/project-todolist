@@ -25,7 +25,7 @@
 
     <footer class="footer" v-if="step == 2">
       <div class="listLeft">
-        {{ step }}개 남았어요,
+        {{ incomplete }}개 남았어요,
         <span class="cheerText">조금만 더 힘내요! </span>
       </div>
 
@@ -74,7 +74,16 @@ export default {
       step: 1,
       todoList: [],
       userInput: '',
+      currentState: 'active',
     };
+  },
+  computed: {
+    incomplete() {
+      console.log(this.todoList);
+      return this.todoList.filter(
+        (todo) => todo.state == 'all' || todo.state == 'active'
+      ).length;
+    },
   },
   methods: {
     getCurrentDate() {
@@ -83,10 +92,6 @@ export default {
       this.currentDate.day = today.getDay();
       this.currentDate.month = today.getMonth();
       this.currentDate.year = today.getFullYear();
-    },
-
-    todoLeft() {
-      this.todoList;
     },
 
     addNewTodo() {
@@ -103,10 +108,14 @@ export default {
     },
 
     deleteTodo(index) {
-      // let index = this.todoList.indexOf(todo);
       this.todoList.splice(index, 1);
     },
+
+    // inProgress() {
+    //   return 'hi';
+    // },
   },
+
   components: {
     List,
   },

@@ -30,6 +30,7 @@
 <script>
 export default {
   name: 'List',
+  emits: ['delete'],
   data() {
     return {
       currentState: 'active',
