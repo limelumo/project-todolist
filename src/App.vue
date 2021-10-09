@@ -15,29 +15,37 @@
           v-model="userInput"
           @keyup.enter="addNewTodo"
         />
-        <button @click="addNewTodo">+</button>
+        <button class="addNewTodo" @click="addNewTodo">+</button>
       </div>
 
       <div class="todos">
-        <List :step="step" :todoList="todoList" @delete="deleteTodo($event)" />
+        <List
+          :step="step"
+          :todoList="todoList"
+          @delete="deleteTodo($event)"
+          @progress="setPercentage($event)"
+        />
       </div>
     </section>
 
     <footer class="footer" v-if="step == 2">
       <div class="listLeft">
-        <span v-if="incomplete != 0">
+        <div v-if="incomplete != 0">
           {{ incomplete }}개 남았어요,
-          <label class="cheerText">
+          <span class="cheerText">
             조금만 더 힘내요!
-          </label>
-        </span>
-        <span class="cheerText" v-if="incomplete == 0"
-          >할 일을 모두 마치셨습니다 😆</span
+          </span>
+        </div>
+        <span class="allDonText" v-if="incomplete == 0"
+          >대단해요! <br />
+          할 일을 모두 마치셨습니다 😆</span
         >
       </div>
 
-      <div class="percentBar">
-        <span>75%</span>
+      <div class="progressBar">
+        <span :style="{ width: percentage + '%' }">
+          <p v-if="percentage > 0">{{ percentage }}%</p>
+        </span>
       </div>
     </footer>
   </div>
@@ -50,7 +58,6 @@ export default {
   name: 'App',
   data() {
     return {
-      todoLeft: true,
       currentDate: {
         date: '',
         day: '',
@@ -64,6 +71,7 @@ export default {
         'Wednesday',
         'Thursday',
         'Friday',
+        'Saturday',
       ],
       month: [
         'January',
@@ -83,16 +91,26 @@ export default {
       todoList: [],
       userInput: '',
       currentState: 'active',
+      percentage: 0,
     };
   },
+
+  created() {
+    this.getCurrentDate();
+  },
+
   computed: {
     incomplete() {
-      return this.todoList.filter(
-        (todo) => todo.state == 'all' || todo.state == 'active'
-      ).length;
+      return this.todoList.filter((todo) => todo.state == 'active').length;
     },
   },
+
   methods: {
+    setPercentage(progress) {
+      this.percentage = progress;
+      console.log(progress);
+    },
+
     getCurrentDate() {
       let today = new Date();
       this.currentDate.date = today.getDate();
@@ -101,7 +119,7 @@ export default {
       this.currentDate.year = today.getFullYear();
     },
 
-    addNewTodo() {
+    addNewTodo(progress) {
       if (!this.userInput) {
         return;
       }
@@ -112,18 +130,17 @@ export default {
       });
       this.userInput = '';
       this.step = 2;
+      this.setPercentage(progress);
     },
 
-    deleteTodo(index) {
+    deleteTodo(index, progress) {
       this.todoList.splice(index, 1);
+      this.setPercentage(progress);
     },
   },
 
   components: {
     List,
-  },
-  created() {
-    this.getCurrentDate();
   },
 };
 </script>

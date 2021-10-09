@@ -11,15 +11,15 @@
     </div>
     <ul v-for="(todo, index) in activeTodoList" :key="index" class="checkList">
       <li
-        @click="toggleTodoState(todo)"
         class="todoList"
-        :class="{ completed: todoList.state == 'done' }"
+        :class="{ completed: todo.state == 'done' }"
+        @click="toggleTodoState(todo)"
       >
-        <input type="checkbox" class="check" />{{ todo.label }}
+        <input type="checkbox" />
+        {{ todo.label }}
       </li>
       <li>
         <button @click="$emit('delete', index)">
-          <!-- <i class="fas fa-pen"></i> -->
           <i class="fas fa-trash-alt"></i>
         </button>
       </li>
@@ -30,21 +30,31 @@
 <script>
 export default {
   name: 'List',
-  emits: ['delete'],
+  emits: ['delete', 'progress'],
   data() {
     return {
       currentState: 'active',
       todoLabel: '',
+      progress: 0,
     };
   },
+
   methods: {
+    setPercentage() {
+      this.progress = Math.round((this.completed / this.todoList.length) * 100);
+      this.$emit('progress', this.progress);
+    },
     changeCurrentState(state) {
       this.currentState = state;
     },
     toggleTodoState(todo) {
-      todo.state = todo.state === 'active' ? 'done' : 'active';
+      if (todo.state === 'active') {
+        todo.state = 'done';
+      }
+      this.setPercentage();
     },
   },
+
   computed: {
     activeTodoList() {
       return this.todoList.filter(
@@ -52,7 +62,11 @@ export default {
           this.currentState === 'all' || todo.state === this.currentState
       );
     },
+    completed() {
+      return this.todoList.filter((todo) => todo.state == 'done').length;
+    },
   },
+
   props: {
     step: Number,
     todoList: Object,
@@ -71,20 +85,20 @@ export default {
   @include flex(space-between, center, '');
   margin-top: 1em;
   text-align: left;
+
   button {
     color: $point-c;
   }
 }
 
-.check {
-  @include object(1.2em, 1.2em, '');
-  margin-right: 1em;
-  vertical-align: top;
-}
-
 .todoList {
+  width: 100%;
   margin-right: 0.6em;
   font-size: 0.9em;
+
+  input {
+    appearance: none;
+  }
 }
 
 .todoBtns {
