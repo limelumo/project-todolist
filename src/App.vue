@@ -103,14 +103,12 @@ export default {
     incomplete() {
       return this.todoList.filter((todo) => todo.state == 'active').length;
     },
+    completed() {
+      return this.todoList.filter((todo) => todo.state == 'done').length;
+    },
   },
 
   methods: {
-    setPercentage(progress) {
-      this.percentage = progress;
-      console.log(progress);
-    },
-
     getCurrentDate() {
       let today = new Date();
       this.currentDate.date = today.getDate();
@@ -119,7 +117,7 @@ export default {
       this.currentDate.year = today.getFullYear();
     },
 
-    addNewTodo(progress) {
+    addNewTodo() {
       if (!this.userInput) {
         return;
       }
@@ -130,12 +128,32 @@ export default {
       });
       this.userInput = '';
       this.step = 2;
-      this.setPercentage(progress);
+      this.calcProgress();
     },
 
-    deleteTodo(index, progress) {
+    deleteTodo(index) {
       this.todoList.splice(index, 1);
-      this.setPercentage(progress);
+      this.calcProgress();
+    },
+
+    setPercentage(progress) {
+      this.percentage = progress;
+      this.resetProgress();
+    },
+
+    calcProgress() {
+      this.percentage = Math.round(
+        (this.completed / this.todoList.length) * 100
+      );
+      this.resetProgress();
+    },
+
+    resetProgress() {
+      if (this.incomplete === 0) {
+        setTimeout(() => {
+          this.percentage = 0;
+        }, 700);
+      }
     },
   },
 
