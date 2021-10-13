@@ -36,6 +36,10 @@ ul {
   padding: 0;
 }
 
+input {
+  user-select: text;
+}
+
 .appWrap {
   @include object(100vw, 100vh, white);
   text-align: center;
