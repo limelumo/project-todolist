@@ -1,11 +1,13 @@
 <template>
   <Greeting
-    v-if="step == 0"
     :savedName="savedName"
-    @changeDisplay="changeDisplay($event)"
+    :hello="hello"
+    :user="user"
+    @saveUserName="saveUserName($event)"
+    @showHello="showHello"
   />
 
-  <div class="appWrap">
+  <div id="appWrap" class="appWrap hide">
     <header class="header">
       <div class="date">
         <span>{{ weekdayNames[currentDate.day] }}, </span>
@@ -104,21 +106,23 @@ export default {
         'November',
         'December',
       ],
-      step: 0,
+      step: 1,
       todoList: [],
       userInput: '',
       currentState: 'active',
       percentage: 0,
-      username: '',
       savedName: '',
       api: weatherApi,
       city: '',
       weather: '',
+      hello: false,
+      user: '',
     };
   },
 
   created() {
     this.getCurrentDate();
+    this.getUserName();
   },
 
   computed: {
@@ -137,6 +141,12 @@ export default {
   },
 
   methods: {
+    getUserName() {
+      this.user = localStorage.getItem('savedName');
+      if (this.user) {
+        this.showHello();
+      }
+    },
     onGeoError() {
       alert("Can't find you. No weather for you");
     },
@@ -154,13 +164,15 @@ export default {
         });
     },
 
-    changeDisplay(userName) {
-      localStorage.setItem('username', userName);
-      this.savedName = userName;
+    showHello() {
+      this.hello = true;
+    },
 
-      setTimeout(() => {
-        this.step = 1;
-      }, 2500);
+    saveUserName(userName) {
+      this.savedName = userName;
+      this.user = userName;
+      localStorage.setItem('savedName', this.savedName);
+      this.showHello();
     },
 
     getCurrentDate() {

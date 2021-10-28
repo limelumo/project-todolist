@@ -1,11 +1,12 @@
 <template>
   <section class="greeting">
-    <div v-if="savedName" class="helloContainer">
-      <h1>Hello, {{ userName }}</h1>
+    <div class="helloContainer" v-if="hello">
+      <h1>Hi, {{ user }} !</h1>
       <div class="quote">
         <h3>" {{ quote[num].quote }} "</h3>
         <p>- {{ quote[num].author }}</p>
       </div>
+      <button @click="toToDos">Get Started</button>
     </div>
 
     <input
@@ -13,7 +14,7 @@
       type="text"
       placeholder="What is your name?"
       v-model="userName"
-      @keyup.enter="$emit('changeDisplay', userName)"
+      @keyup.enter="$emit('saveUserName', userName)"
     />
   </section>
 </template>
@@ -29,9 +30,23 @@ export default {
       quote: quotes,
     };
   },
+
+  methods: {
+    toToDos() {
+      const appWrap = document.querySelector('#appWrap');
+      const greeting = document.querySelector('.greeting');
+      appWrap.classList.remove('hide');
+      greeting.style.display = 'none';
+      this.step = 1;
+    },
+  },
+
   props: {
     savedName: String,
+    user: String,
+    hello: Boolean,
   },
+
   computed: {
     num() {
       return Math.floor(Math.random() * this.quote.length);
@@ -59,6 +74,13 @@ export default {
     border-radius: 0;
     color: white;
     font-size: 1.3em;
+  }
+
+  button {
+    color: white;
+    margin-top: 5em;
+    font-size: 1.2em;
+    font-weight: bold;
   }
 }
 
