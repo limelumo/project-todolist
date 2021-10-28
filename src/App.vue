@@ -1,4 +1,6 @@
 <template>
+  <Greeting :step="step" />
+
   <div class="appWrap">
     <header class="header">
       <div class="date">
@@ -28,7 +30,7 @@
       </div>
     </section>
 
-    <footer class="footer" v-if="step == 2">
+    <footer class="footer" v-if="step == 3">
       <div class="listLeft">
         <div v-if="incomplete != 0">
           {{ incomplete }}개 남았어요,
@@ -53,6 +55,7 @@
 
 <script>
 import List from './components/List';
+import Greeting from './components/Greeting';
 
 export default {
   name: 'App',
@@ -87,7 +90,7 @@ export default {
         'November',
         'December',
       ],
-      step: 1,
+      step: 0,
       todoList: [],
       userInput: '',
       currentState: 'active',
@@ -127,7 +130,7 @@ export default {
         state: 'active',
       });
       this.userInput = '';
-      this.step = 2;
+      this.step = 3;
       this.calcProgress();
     },
 
@@ -159,6 +162,7 @@ export default {
 
   components: {
     List,
+    Greeting,
   },
 };
 </script>

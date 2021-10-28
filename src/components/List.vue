@@ -1,9 +1,9 @@
 <template>
-  <div v-if="step == 1">
+  <div v-if="step == 2">
     할 일이 없습니다 😎
   </div>
 
-  <div v-if="step == 2">
+  <div v-if="step == 3">
     <div class="todoBtns">
       <button @click="changeCurrentState('active')">남은 할일</button>
       <button @click="changeCurrentState('done')">완료</button>
