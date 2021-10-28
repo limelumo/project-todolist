@@ -30,7 +30,6 @@ export default {
     };
   },
   props: {
-    step: Number,
     savedName: String,
   },
   computed: {
@@ -64,11 +63,14 @@ export default {
 }
 
 .helloContainer {
+  @include flex(center, center, column);
   text-align: center;
   color: white;
 }
 
 .quote {
+  border: 1px solid white;
+  padding: 1.5em;
   margin-top: 2em;
 
   p {

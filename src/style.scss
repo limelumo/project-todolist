@@ -19,9 +19,8 @@
 }
 
 body {
-  @include object(100%, 100vh, $point-c);
-  user-select: none;
   color: $point-c;
+  user-select: none;
 }
 
 button {

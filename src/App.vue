@@ -1,6 +1,6 @@
 <template>
   <Greeting
-    :step="step"
+    v-if="step == 0"
     :savedName="savedName"
     @changeDisplay="changeDisplay($event)"
   />
@@ -25,8 +25,12 @@
       </div>
 
       <div class="todos">
+        <div v-if="step == 1">
+          할 일이 없습니다 😎
+        </div>
+
         <List
-          :step="step"
+          v-if="step == 2"
           :todoList="todoList"
           @delete="deleteTodo($event)"
           @progress="setPercentage($event)"
@@ -34,7 +38,7 @@
       </div>
     </section>
 
-    <footer class="footer" v-if="step == 3">
+    <footer class="footer" v-if="step == 2">
       <div class="listLeft">
         <div v-if="incomplete != 0">
           {{ incomplete }}개 남았어요,
@@ -121,6 +125,10 @@ export default {
     changeDisplay(userName) {
       localStorage.setItem('username', userName);
       this.savedName = userName;
+
+      setTimeout(() => {
+        this.step = 1;
+      }, 2500);
     },
 
     getCurrentDate() {
@@ -141,7 +149,7 @@ export default {
         state: 'active',
       });
       this.userInput = '';
-      this.step = 3;
+      this.step = 2;
       this.calcProgress();
     },
 
