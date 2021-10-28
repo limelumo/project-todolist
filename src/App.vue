@@ -1,5 +1,9 @@
 <template>
-  <Greeting :step="step" />
+  <Greeting
+    :step="step"
+    :savedName="savedName"
+    @changeDisplay="changeDisplay($event)"
+  />
 
   <div class="appWrap">
     <header class="header">
@@ -95,6 +99,8 @@ export default {
       userInput: '',
       currentState: 'active',
       percentage: 0,
+      username: '',
+      savedName: '',
     };
   },
 
@@ -112,6 +118,11 @@ export default {
   },
 
   methods: {
+    changeDisplay(userName) {
+      localStorage.setItem('username', userName);
+      this.savedName = userName;
+    },
+
     getCurrentDate() {
       let today = new Date();
       this.currentDate.date = today.getDate();

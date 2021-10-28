@@ -1,30 +1,36 @@
 <template>
-  <div v-if="step == 2">
-    할 일이 없습니다 😎
-  </div>
-
-  <div v-if="step == 3">
-    <div class="todoBtns">
-      <button @click="changeCurrentState('active')">남은 할일</button>
-      <button @click="changeCurrentState('done')">완료</button>
-      <button @click="changeCurrentState('all')">전체보기</button>
+  <section class="list">
+    <div v-if="step == 2">
+      할 일이 없습니다 😎
     </div>
-    <ul v-for="(todo, index) in activeTodoList" :key="index" class="checkList">
-      <li
-        class="todoList"
-        :class="{ completed: todo.state == 'done' }"
-        @click="toggleTodoState(todo)"
+
+    <div v-if="step == 3">
+      <div class="todoBtns">
+        <button @click="changeCurrentState('active')">남은 할일</button>
+        <button @click="changeCurrentState('done')">완료</button>
+        <button @click="changeCurrentState('all')">전체보기</button>
+      </div>
+      <ul
+        v-for="(todo, index) in activeTodoList"
+        :key="index"
+        class="checkList"
       >
-        <input type="checkbox" />
-        {{ todo.label }}
-      </li>
-      <li>
-        <button @click="$emit('delete', index)">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </li>
-    </ul>
-  </div>
+        <li
+          class="todoList"
+          :class="{ completed: todo.state == 'done' }"
+          @click="toggleTodoState(todo)"
+        >
+          <input type="checkbox" />
+          {{ todo.label }}
+        </li>
+        <li>
+          <button @click="$emit('delete', index)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -76,6 +82,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '../mixin.scss';
+
+.list {
+  font-family: 'Roboto', sans-serif;
+}
 
 .completed {
   text-decoration: line-through;
