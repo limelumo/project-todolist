@@ -46,6 +46,7 @@ input {
 
 .header {
   @include object('', '', white);
+  @include flex(space-between, center, '');
   text-align: center;
   padding: 1.5em;
   border-bottom: 1px solid $point-c;

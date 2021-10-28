@@ -11,6 +11,11 @@
         <span>{{ weekdayNames[currentDate.day] }}, </span>
         {{ month[currentDate.month] }} {{ currentDate.date }}
       </div>
+
+      <div class="weather">
+        <span>{{ getWeather }}</span>
+        <span>{{ weather }} {{ city }}</span>
+      </div>
     </header>
 
     <section class="list">
@@ -64,6 +69,7 @@
 <script>
 import List from './components/List';
 import Greeting from './components/Greeting';
+import weatherApi from 'raw-loader!./assets/weatherApi.txt';
 
 export default {
   name: 'App',
@@ -105,6 +111,9 @@ export default {
       percentage: 0,
       username: '',
       savedName: '',
+      api: weatherApi,
+      city: '',
+      weather: '',
     };
   },
 
@@ -113,6 +122,12 @@ export default {
   },
 
   computed: {
+    getWeather() {
+      return navigator.geolocation.getCurrentPosition(
+        this.onGeoOk,
+        this.onGeoError
+      );
+    },
     incomplete() {
       return this.todoList.filter((todo) => todo.state == 'active').length;
     },
@@ -122,6 +137,23 @@ export default {
   },
 
   methods: {
+    onGeoError() {
+      alert("Can't find you. No weather for you");
+    },
+
+    onGeoOk(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.api}&units=metric`;
+
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          this.city = `${data.name}`;
+          this.weather = `${data.main.temp}℃ ,`;
+        });
+    },
+
     changeDisplay(userName) {
       localStorage.setItem('username', userName);
       this.savedName = userName;
