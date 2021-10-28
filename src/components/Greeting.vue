@@ -3,8 +3,11 @@
     <div class="helloContainer" v-if="hello">
       <h1>Hi, {{ user }} !</h1>
       <div class="quote">
-        <h3>" {{ quote[num].quote }} "</h3>
-        <p>- {{ quote[num].author }}</p>
+        <h3>{{ quote[num].quote }}</h3>
+        <p>
+          - <br />
+          {{ quote[num].author }}
+        </p>
       </div>
       <button @click="toToDos">Get Started</button>
     </div>
@@ -78,7 +81,7 @@ export default {
 
   button {
     color: white;
-    margin-top: 5em;
+    margin-top: 2em;
     font-size: 1.2em;
     font-weight: bold;
   }
@@ -93,6 +96,7 @@ export default {
 .quote {
   border: 1px solid white;
   padding: 1.5em;
+  margin: 2em;
   margin-top: 2em;
 
   p {

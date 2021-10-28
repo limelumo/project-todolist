@@ -52,6 +52,10 @@ input {
   border-bottom: 1px solid $point-c;
 }
 
+.weather {
+  font-size: 0.9em;
+}
+
 .date {
   font-size: 1.15rem;
   span {
@@ -137,4 +141,16 @@ input {
 
 .hide {
   display: none;
+}
+
+@media screen and (max-width: 400px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .weather {
+    font-size: 0.95em;
+    margin-top: 0.5em;
+  }
 }
